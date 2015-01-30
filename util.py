@@ -20,7 +20,7 @@ def write_to_solution_file(num, title):
     problem_root = get_doc_root(problem_url)
     problem_desc = problem_root.xpath('//div[@class="question-content"]//text()')
     #problem_desc = [item.replace("\r", "") if item != "Show Tags" else "Tags:" for item in problem_desc if item.strip()]
-    problem_desc = [item if item != "Show Tags" else "Tags:" for item in problem_desc]
+    problem_desc = [item.replace('\r', '') if item != "Show Tags" else "Tags:" for item in problem_desc]
     print problem_desc
 
     with open(num + "-" + title.replace(" ", "-")+".md", 'w') as f:
@@ -28,7 +28,7 @@ def write_to_solution_file(num, title):
         f.write('Source: ' + problem_url + "  \n")
         f.write('###Description\n')
         index = problem_desc.index("Tags:")
-        f.write("  \n".join(problem_desc[:index]) + "###Tags\n" + ", ".join(problem_desc[index+1:]) + "  \n")
+        f.write("  \n".join(problem_desc[:index]).rstrip() + "  \n###Tags\n" + ", ".join([item for item in problem_desc[index+1:] if item.strip()]) + "  \n")
         f.write('###Solutions')
 
 def getAllproblems(url):

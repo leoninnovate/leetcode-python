@@ -22,19 +22,7 @@ Input:
 
   
 Output:  
- index1=1, index2=2
-  
-
-              
-                ###Tags
-
-                , 
-                  
-                  , Array, 
-                  
-                  , Hash Table, 
-                  
-                , 
-              
-              
+ index1=1, index2=2  
+###Tags
+Array, Hash Table  
 ###Solutions

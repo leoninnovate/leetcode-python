@@ -1,5 +1,5 @@
 """
-utility script to generate all the empty solution files to problems on
+Utility script to generate all the empty solution files to problems on
 leetcodeOJ
 """
 
@@ -21,14 +21,22 @@ def write_to_solution_file(num, title):
     problem_desc = problem_root.xpath('//div[@class="question-content"]//text()')
     #problem_desc = [item.replace("\r", "") if item != "Show Tags" else "Tags:" for item in problem_desc if item.strip()]
     problem_desc = [item.replace('\r', '') if item != "Show Tags" else "Tags:" for item in problem_desc]
-    print problem_desc
 
+    if not problem_desc:
+        print "no desc"
+        return
+
+    print problem_desc
     with open(num + "-" + title.replace(" ", "-")+".md", 'w') as f:
         f.write('##' + title + '\n')
         f.write('Source: ' + problem_url + "  \n")
         f.write('###Description\n')
-        index = problem_desc.index("Tags:")
-        f.write("  \n".join(problem_desc[:index]).rstrip() + "  \n###Tags\n" + ", ".join([item for item in problem_desc[index+1:] if item.strip()]) + "  \n")
+        try:
+            index = problem_desc.index("Tags:")
+            f.write("  \n".join(problem_desc[:index]).encode('utf-8').rstrip() + "  \n###Tags\n" + ", ".join([item for item in problem_desc[index+1:] if item.strip()]) + "  \n")
+        except:
+            f.write("  \n".join(problem_desc[:index]).encode('utf-8').rstrip() + "  \n")
+
         f.write('###Solutions')
 
 def getAllproblems(url):
@@ -38,12 +46,11 @@ def getAllproblems(url):
             problems = tr.xpath('.//td//text()')
             if problems:
                 problem_num, problem_title, accept_rate,  level = problems[3], problems[5], problems[-2], problems[-1]
-                write_to_solution_file(problem_title)
-
-
-# print(getAllproblems("https://oj.leetcode.com/problemset/algorithms/"))
+                write_to_solution_file(problem_num, problem_title)
 
 def test():
     write_to_solution_file("1", "Two Sum")
 
-test()
+if __name__ == "__main__":
+    leetcode_problem_url = "https://oj.leetcode.com/problemset/algorithms/"
+    getAllproblems(leetcode_problem_url)

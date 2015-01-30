@@ -23,10 +23,12 @@ def write_to_solution_file(num, title):
     print problem_desc
 
     with open(num + "-" + title.replace(" ", "-")+".md", 'w') as f:
-        f.write('##Description\n')
+        f.write('##' + title + '\n')
+        f.write('Source: ' + problem_url + "  \n")
+        f.write('###Description\n')
         index = problem_desc.index("Tags:")
-        f.write("\n".join(problem_desc[:index]) + "##Tags: \n" + ", ".join(problem_desc[index+1:]))
-        f.write('\n"""')
+        f.write("  \n".join(problem_desc[:index]) + "###Tags\n" + ", ".join(problem_desc[index+1:]) + "  \n")
+        f.write('###Solutions')
 
 def getAllproblems(url):
     problem_set_root = get_doc_root(url)
